@@ -15,13 +15,29 @@ duplicating it here would only create a second copy to go stale.
 
 - **[Modules](modules.md)** — every module in go-richdoc, with its source and its reference.
 
+## The model, in one paragraph
+
+`richdoc` is a typed tree: a `Document` of `Block`s and `Inline`s, both CLOSED
+interface sets, so a converter can type-switch over them exhaustively. Each
+converter maps one format onto that tree in both directions. Where a format has
+something the model does not, the converter says so in its own README with the
+population it measured — that is how the model grows: `Classes` on the nodes that
+carry them (v0.4.0), `Cell.Blocks` and `Table.Caption` (v0.5.0), each added because
+a corpus showed what was being dropped, and each additive so no existing consumer
+breaks.
+
 ## What every module here is held to
 
 - `CGO_ENABLED=0`: no cgo, and no shelling out to a command-line tool in place of a
   library.
 - Built and tested on amd64, arm64, riscv64, loong64, ppc64le and s390x — the last
   being big-endian, which keeps every on-disk and on-wire encoding honest.
-- 100% statement coverage as a CI gate, error branches included.
+- 100% statement coverage as a CI gate, error branches included — with one stated
+  exception: `rst` enforces a **94% floor** instead. It walks a doctree whose exact
+  shape it does not control (`go-docutils/docutils` is a separate, independently
+  evolving engine), so its `ok`-checked type assertions and its `default:` case for
+  an unknown doctree tag are a safety net for a FUTURE tag rather than dead code.
+  The reason is in that repository's own workflow, beside the number.
 - BSD-3-Clause.
 
 The standard is described in full on the
