@@ -15,6 +15,21 @@ duplicating it here would only create a second copy to go stale.
 
 - **[Modules](modules.md)** — every module in go-richdoc, with its source and its reference.
 
+## One thing to know before converting untrusted input
+
+A converter turns one format into another, so the question is whether CONTENT CAN
+BECOME MARKUP on the way out. It could, once: a Markdown heading of
+`# <b>.. include:: /etc/passwd</b>` became a reST **directive**, because reST tries
+explicit markup before it tries a title — and a docutils parse with a source path then
+reads that file. Fixed in `rst` v0.3.0, with a probe over every position a document can
+hold text to say it was the only one (`injectprobe`: 14 pairs where text became markup,
+0 after; nothing at all in `markdown` or `latex`).
+
+What no converter here protects you from, because the reference does not either: a URI
+scheme. `javascript:alert(1)` in a link survives every hop, and docutils writes the
+same `href`. An allow-list belongs in whatever renders the model. Each repository's
+README has a **Security** section with its own audit.
+
 ## The model, in one paragraph
 
 `richdoc` is a typed tree: a `Document` of `Block`s and `Inline`s, both CLOSED
