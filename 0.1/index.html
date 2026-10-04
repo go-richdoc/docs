@@ -343,6 +343,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#one-thing-to-know-before-converting-untrusted-input" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        One thing to know before converting untrusted input
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#the-model-in-one-paragraph" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -437,6 +448,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#one-thing-to-know-before-converting-untrusted-input" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        One thing to know before converting untrusted input
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#the-model-in-one-paragraph" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -488,6 +510,18 @@ duplicating it here would only create a second copy to go stale.</p>
 <ul>
 <li><strong><a href="modules/">Modules</a></strong> — every module in go-richdoc, with its source and its reference.</li>
 </ul>
+<h2 id="one-thing-to-know-before-converting-untrusted-input">One thing to know before converting untrusted input<a class="headerlink" href="#one-thing-to-know-before-converting-untrusted-input" title="Permanent link">&para;</a></h2>
+<p>A converter turns one format into another, so the question is whether CONTENT CAN
+BECOME MARKUP on the way out. It could, once: a Markdown heading of
+<code># &lt;b&gt;.. include:: /etc/passwd&lt;/b&gt;</code> became a reST <strong>directive</strong>, because reST tries
+explicit markup before it tries a title — and a docutils parse with a source path then
+reads that file. Fixed in <code>rst</code> v0.3.0, with a probe over every position a document can
+hold text to say it was the only one (<code>injectprobe</code>: 14 pairs where text became markup,
+0 after; nothing at all in <code>markdown</code> or <code>latex</code>).</p>
+<p>What no converter here protects you from, because the reference does not either: a URI
+scheme. <code>javascript:alert(1)</code> in a link survives every hop, and docutils writes the
+same <code>href</code>. An allow-list belongs in whatever renders the model. Each repository's
+README has a <strong>Security</strong> section with its own audit.</p>
 <h2 id="the-model-in-one-paragraph">The model, in one paragraph<a class="headerlink" href="#the-model-in-one-paragraph" title="Permanent link">&para;</a></h2>
 <p><code>richdoc</code> is a typed tree: a <code>Document</code> of <code>Block</code>s and <code>Inline</code>s, both CLOSED
 interface sets, so a converter can type-switch over them exhaustively. Each
