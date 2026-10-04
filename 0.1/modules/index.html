@@ -371,30 +371,36 @@ its generated API reference.</p>
 <thead>
 <tr>
 <th>Module</th>
+<th>What it is</th>
 <th>Reference</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><a href="https://github.com/go-richdoc/latex"><code>latex</code></a></td>
-<td><a href="https://pkg.go.dev/github.com/go-richdoc/latex">pkg.go.dev</a></td>
-</tr>
-<tr>
-<td><a href="https://github.com/go-richdoc/markdown"><code>markdown</code></a></td>
-<td><a href="https://pkg.go.dev/github.com/go-richdoc/markdown">pkg.go.dev</a></td>
-</tr>
-<tr>
 <td><a href="https://github.com/go-richdoc/richdoc"><code>richdoc</code></a></td>
+<td>the model itself: the tree, and <code>Walk</code>, <code>Clone</code>, <code>PlainText</code> and a builder</td>
 <td><a href="https://pkg.go.dev/github.com/go-richdoc/richdoc">pkg.go.dev</a></td>
 </tr>
 <tr>
+<td><a href="https://github.com/go-richdoc/markdown"><code>markdown</code></a></td>
+<td>CommonMark + GFM tables and strikethrough, both directions</td>
+<td><a href="https://pkg.go.dev/github.com/go-richdoc/markdown">pkg.go.dev</a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/go-richdoc/latex"><code>latex</code></a></td>
+<td>LaTeX, both directions, plus a PDF subpackage</td>
+<td><a href="https://pkg.go.dev/github.com/go-richdoc/latex">pkg.go.dev</a></td>
+</tr>
+<tr>
 <td><a href="https://github.com/go-richdoc/rst"><code>rst</code></a></td>
+<td>reStructuredText, both directions, delegating the parse to <code>go-docutils/docutils</code></td>
 <td><a href="https://pkg.go.dev/github.com/go-richdoc/rst">pkg.go.dev</a></td>
 </tr>
 </tbody>
 </table>
-<p>Descriptions live on the repositories themselves rather than being copied here, so
-there is one place to correct when one changes.</p>
+<p>A one-line summary each, and nothing more: what a converter does with a construct
+its format cannot express lives in that repository's README, beside the measurement
+that decided it, so there is one place to correct when it changes.</p>
 
 
 

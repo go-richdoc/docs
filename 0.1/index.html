@@ -343,6 +343,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#the-model-in-one-paragraph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The model, in one paragraph
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#what-every-module-here-is-held-to" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -426,6 +437,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#the-model-in-one-paragraph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The model, in one paragraph
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#what-every-module-here-is-held-to" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -466,13 +488,27 @@ duplicating it here would only create a second copy to go stale.</p>
 <ul>
 <li><strong><a href="modules/">Modules</a></strong> — every module in go-richdoc, with its source and its reference.</li>
 </ul>
+<h2 id="the-model-in-one-paragraph">The model, in one paragraph<a class="headerlink" href="#the-model-in-one-paragraph" title="Permanent link">&para;</a></h2>
+<p><code>richdoc</code> is a typed tree: a <code>Document</code> of <code>Block</code>s and <code>Inline</code>s, both CLOSED
+interface sets, so a converter can type-switch over them exhaustively. Each
+converter maps one format onto that tree in both directions. Where a format has
+something the model does not, the converter says so in its own README with the
+population it measured — that is how the model grows: <code>Classes</code> on the nodes that
+carry them (v0.4.0), <code>Cell.Blocks</code> and <code>Table.Caption</code> (v0.5.0), each added because
+a corpus showed what was being dropped, and each additive so no existing consumer
+breaks.</p>
 <h2 id="what-every-module-here-is-held-to">What every module here is held to<a class="headerlink" href="#what-every-module-here-is-held-to" title="Permanent link">&para;</a></h2>
 <ul>
 <li><code>CGO_ENABLED=0</code>: no cgo, and no shelling out to a command-line tool in place of a
   library.</li>
 <li>Built and tested on amd64, arm64, riscv64, loong64, ppc64le and s390x — the last
   being big-endian, which keeps every on-disk and on-wire encoding honest.</li>
-<li>100% statement coverage as a CI gate, error branches included.</li>
+<li>100% statement coverage as a CI gate, error branches included — with one stated
+  exception: <code>rst</code> enforces a <strong>94% floor</strong> instead. It walks a doctree whose exact
+  shape it does not control (<code>go-docutils/docutils</code> is a separate, independently
+  evolving engine), so its <code>ok</code>-checked type assertions and its <code>default:</code> case for
+  an unknown doctree tag are a safety net for a FUTURE tag rather than dead code.
+  The reason is in that repository's own workflow, beside the number.</li>
 <li>BSD-3-Clause.</li>
 </ul>
 <p>The standard is described in full on the
