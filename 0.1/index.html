@@ -498,9 +498,10 @@
 
 
 <h1 id="go-richdoc">go-richdoc<a class="headerlink" href="#go-richdoc" title="Permanent link">&para;</a></h1>
-<p>One rich-document model, and the converters that read and write it — Markdown, LaTeX and reStructuredText.</p>
+<p>One rich-document model, and the converters that read and write it — Markdown,
+LaTeX, reStructuredText, FictionBook, CSV, JSON, XML and plain text.</p>
 <p>Part of the <strong>Documents, typesetting &amp; fonts</strong> family of the
-<a href="https://go-desktop.github.io/">pure-Go ecosystem</a> — 4 modules,
+<a href="https://go-desktop.github.io/">pure-Go ecosystem</a> — 6 modules,
 all <code>CGO_ENABLED=0</code>.</p>
 <h2 id="what-is-here">What is here<a class="headerlink" href="#what-is-here" title="Permanent link">&para;</a></h2>
 <p>This site is the organisation's reference index: what each module is, and where its
@@ -535,8 +536,22 @@ breaks.</p>
 <ul>
 <li><code>CGO_ENABLED=0</code>: no cgo, and no shelling out to a command-line tool in place of a
   library.</li>
-<li>Built and tested on amd64, arm64, riscv64, loong64, ppc64le and s390x — the last
-  being big-endian, which keeps every on-disk and on-wire encoding honest.</li>
+<li>
+<p><strong>Built</strong> for ten targets — <code>linux/{amd64,arm64,riscv64,loong64,ppc64le,s390x}</code>,
+  <code>darwin/{amd64,arm64}</code>, <code>windows/amd64</code> and <code>js/wasm</code> — and <strong>tested</strong> on
+  <code>amd64</code>, with the race detector.</p>
+<div class="admonition note">
+<p class="admonition-title">⛔ Built is not tested, and this page used to say both at once</p>
+<p>It read "built and tested on amd64, arm64, riscv64, loong64, ppc64le and
+s390x". Cross-compiling proves a program compiles; it says nothing about
+what it does when a byte order or a word size differs. These modules are
+a tree and a great deal of string handling, which is a different risk
+from a format whose integers come off a disk — and where that <em>is</em> the
+risk, the lane exists: <a href="https://go-ooxml.github.io/"><code>go-ooxml</code></a> runs its
+suite under qemu on five more architectures, big-endian s390x included,
+because an OPC package is a ZIP full of little-endian integers.</p>
+</div>
+<ul>
 <li>100% statement coverage as a CI gate, error branches included — with one stated
   exception: <code>rst</code> enforces a <strong>94% floor</strong> instead. It walks a doctree whose exact
   shape it does not control (<code>go-docutils/docutils</code> is a separate, independently
@@ -544,6 +559,8 @@ breaks.</p>
   an unknown doctree tag are a safety net for a FUTURE tag rather than dead code.
   The reason is in that repository's own workflow, beside the number.</li>
 <li>BSD-3-Clause.</li>
+</ul>
+</li>
 </ul>
 <p>The standard is described in full on the
 <a href="https://go-desktop.github.io/docs/latest/standards/">ecosystem map</a>.</p>

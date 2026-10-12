@@ -365,13 +365,14 @@
 
 
 <h1 id="modules">Modules<a class="headerlink" href="#modules" title="Permanent link">&para;</a></h1>
-<p>The 4 modules of <strong>go-richdoc</strong>. Each links to its source and to
+<p>The 6 modules of <strong>go-richdoc</strong>. Each links to its source and to
 its generated API reference.</p>
 <table>
 <thead>
 <tr>
 <th>Module</th>
 <th>What it is</th>
+<th>Directions</th>
 <th>Reference</th>
 </tr>
 </thead>
@@ -379,25 +380,45 @@ its generated API reference.</p>
 <tr>
 <td><a href="https://github.com/go-richdoc/richdoc"><code>richdoc</code></a></td>
 <td>the model itself: the tree, and <code>Walk</code>, <code>Clone</code>, <code>PlainText</code> and a builder</td>
+<td>—</td>
 <td><a href="https://pkg.go.dev/github.com/go-richdoc/richdoc">pkg.go.dev</a></td>
 </tr>
 <tr>
 <td><a href="https://github.com/go-richdoc/markdown"><code>markdown</code></a></td>
-<td>CommonMark + GFM tables and strikethrough, both directions</td>
+<td>CommonMark + GFM tables and strikethrough, delegating the parse to <code>goldmark</code></td>
+<td>read, write</td>
 <td><a href="https://pkg.go.dev/github.com/go-richdoc/markdown">pkg.go.dev</a></td>
 </tr>
 <tr>
 <td><a href="https://github.com/go-richdoc/latex"><code>latex</code></a></td>
-<td>LaTeX, both directions, plus a PDF subpackage</td>
+<td>a practical subset of LaTeX, plus a PDF subpackage</td>
+<td>read, write</td>
 <td><a href="https://pkg.go.dev/github.com/go-richdoc/latex">pkg.go.dev</a></td>
 </tr>
 <tr>
 <td><a href="https://github.com/go-richdoc/rst"><code>rst</code></a></td>
-<td>reStructuredText, both directions, delegating the parse to <code>go-docutils/docutils</code></td>
+<td>reStructuredText, delegating the parse to <code>go-docutils/docutils</code></td>
+<td>read, write</td>
 <td><a href="https://pkg.go.dev/github.com/go-richdoc/rst">pkg.go.dev</a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/go-richdoc/data"><code>data</code></a></td>
+<td>CSV, JSON, XML and plain text, plus the <code>richdata</code> command</td>
+<td>read</td>
+<td><a href="https://pkg.go.dev/github.com/go-richdoc/data">pkg.go.dev</a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/go-richdoc/fb2"><code>fb2</code></a></td>
+<td>FictionBook 2 (<code>.fb2</code>): one XML file, images base64 inside it</td>
+<td>read</td>
+<td><a href="https://pkg.go.dev/github.com/go-richdoc/fb2">pkg.go.dev</a></td>
 </tr>
 </tbody>
 </table>
+<p><strong>Which directions a module has is in the table</strong>, because "converter" said of a
+one-way reader is the kind of claim that costs somebody an afternoon. A module
+that only reads is not unfinished: a <code>.fb2</code> or a <code>.csv</code> is a <em>source</em>, and
+writing one back is a job nobody has asked for.</p>
 <p>A one-line summary each, and nothing more: what a converter does with a construct
 its format cannot express lives in that repository's README, beside the measurement
 that decided it, so there is one place to correct when it changes.</p>
