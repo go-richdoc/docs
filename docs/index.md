@@ -1,9 +1,10 @@
 # go-richdoc
 
-One rich-document model, and the converters that read and write it — Markdown, LaTeX and reStructuredText.
+One rich-document model, and the converters that read and write it — Markdown,
+LaTeX, reStructuredText, FictionBook, CSV, JSON, XML and plain text.
 
 Part of the **Documents, typesetting & fonts** family of the
-[pure-Go ecosystem](https://go-desktop.github.io/) — 4 modules,
+[pure-Go ecosystem](https://go-desktop.github.io/) — 6 modules,
 all `CGO_ENABLED=0`.
 
 ## What is here
@@ -45,8 +46,19 @@ breaks.
 
 - `CGO_ENABLED=0`: no cgo, and no shelling out to a command-line tool in place of a
   library.
-- Built and tested on amd64, arm64, riscv64, loong64, ppc64le and s390x — the last
-  being big-endian, which keeps every on-disk and on-wire encoding honest.
+- **Built** for ten targets — `linux/{amd64,arm64,riscv64,loong64,ppc64le,s390x}`,
+  `darwin/{amd64,arm64}`, `windows/amd64` and `js/wasm` — and **tested** on
+  `amd64`, with the race detector.
+
+    !!! note "⛔ Built is not tested, and this page used to say both at once"
+        It read "built and tested on amd64, arm64, riscv64, loong64, ppc64le and
+        s390x". Cross-compiling proves a program compiles; it says nothing about
+        what it does when a byte order or a word size differs. These modules are
+        a tree and a great deal of string handling, which is a different risk
+        from a format whose integers come off a disk — and where that *is* the
+        risk, the lane exists: [`go-ooxml`](https://go-ooxml.github.io/) runs its
+        suite under qemu on five more architectures, big-endian s390x included,
+        because an OPC package is a ZIP full of little-endian integers.
 - 100% statement coverage as a CI gate, error branches included — with one stated
   exception: `rst` enforces a **94% floor** instead. It walks a doctree whose exact
   shape it does not control (`go-docutils/docutils` is a separate, independently
