@@ -308,6 +308,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modules
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -324,6 +342,36 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#one-missing-reader-was-three-missing-formats" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⛔ One missing reader was three missing formats
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -349,6 +397,25 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#one-missing-reader-was-three-missing-formats" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⛔ One missing reader was three missing formats
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -365,7 +432,7 @@
 
 
 <h1 id="modules">Modules<a class="headerlink" href="#modules" title="Permanent link">&para;</a></h1>
-<p>The 6 modules of <strong>go-richdoc</strong>. Each links to its source and to
+<p>The 9 modules of <strong>go-richdoc</strong>. Each links to its source and to
 its generated API reference.</p>
 <table>
 <thead>
@@ -413,12 +480,38 @@ its generated API reference.</p>
 <td>read</td>
 <td><a href="https://pkg.go.dev/github.com/go-richdoc/fb2">pkg.go.dev</a></td>
 </tr>
+<tr>
+<td><a href="https://github.com/go-richdoc/html"><code>html</code></a></td>
+<td>HTML and XHTML, delegating the parse to <code>golang.org/x/net/html</code></td>
+<td>read</td>
+<td><a href="https://pkg.go.dev/github.com/go-richdoc/html">pkg.go.dev</a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/go-richdoc/epub"><code>epub</code></a></td>
+<td>EPUB 2 and 3: the ZIP, the manifest and the spine, chapters through <code>html</code></td>
+<td>read</td>
+<td><a href="https://pkg.go.dev/github.com/go-richdoc/epub">pkg.go.dev</a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/go-richdoc/email"><code>email</code></a></td>
+<td>RFC 5322 messages and MIME, HTML parts through <code>html</code></td>
+<td>read</td>
+<td><a href="https://pkg.go.dev/github.com/go-richdoc/email">pkg.go.dev</a></td>
+</tr>
 </tbody>
 </table>
 <p><strong>Which directions a module has is in the table</strong>, because "converter" said of a
 one-way reader is the kind of claim that costs somebody an afternoon. A module
-that only reads is not unfinished: a <code>.fb2</code> or a <code>.csv</code> is a <em>source</em>, and
-writing one back is a job nobody has asked for.</p>
+that only reads is not unfinished: a <code>.fb2</code>, an EPUB, a mailbox or a <code>.csv</code> is a
+<em>source</em>, and writing one back is a job nobody has asked for.</p>
+<h2 id="one-missing-reader-was-three-missing-formats">⛔ One missing reader was three missing formats<a class="headerlink" href="#one-missing-reader-was-three-missing-formats" title="Permanent link">&para;</a></h2>
+<p><code>html</code> is not a format anybody asked this organisation for. It is the piece
+<code>epub</code> and <code>email</code> both needed — EPUB's content documents are XHTML and an HTML
+mail's body is HTML — and <code>mobi</code> needs it too. Three entries on
+<a href="https://github.com/go-pdfkit/conformance">go-pdfkit's parity table</a> were
+blocked on one reader, which is the argument for naming a gap rather than
+working around it: two of the three closed the same afternoon the reader
+landed.</p>
 <p>A one-line summary each, and nothing more: what a converter does with a construct
 its format cannot express lives in that repository's README, beside the measurement
 that decided it, so there is one place to correct when it changes.</p>
