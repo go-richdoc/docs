@@ -369,6 +369,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#and-the-shared-reader-is-where-the-next-defect-was" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⛔ And the shared reader is where the next defect was
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -414,6 +425,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#and-the-shared-reader-is-where-the-next-defect-was" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⛔ And the shared reader is where the next defect was
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -432,7 +454,7 @@
 
 
 <h1 id="modules">Modules<a class="headerlink" href="#modules" title="Permanent link">&para;</a></h1>
-<p>The 9 modules of <strong>go-richdoc</strong>. Each links to its source and to
+<p>The 10 modules of <strong>go-richdoc</strong>. Each links to its source and to
 its generated API reference.</p>
 <table>
 <thead>
@@ -498,6 +520,12 @@ its generated API reference.</p>
 <td>read</td>
 <td><a href="https://pkg.go.dev/github.com/go-richdoc/email">pkg.go.dev</a></td>
 </tr>
+<tr>
+<td><a href="https://github.com/go-richdoc/mobi"><code>mobi</code></a></td>
+<td>Kindle MOBI: a Palm database, a PalmDOC stream and one HTML document, through <code>html</code></td>
+<td>read</td>
+<td><a href="https://pkg.go.dev/github.com/go-richdoc/mobi">pkg.go.dev</a></td>
+</tr>
 </tbody>
 </table>
 <p><strong>Which directions a module has is in the table</strong>, because "converter" said of a
@@ -507,11 +535,23 @@ that only reads is not unfinished: a <code>.fb2</code>, an EPUB, a mailbox or a 
 <h2 id="one-missing-reader-was-three-missing-formats">⛔ One missing reader was three missing formats<a class="headerlink" href="#one-missing-reader-was-three-missing-formats" title="Permanent link">&para;</a></h2>
 <p><code>html</code> is not a format anybody asked this organisation for. It is the piece
 <code>epub</code> and <code>email</code> both needed — EPUB's content documents are XHTML and an HTML
-mail's body is HTML — and <code>mobi</code> needs it too. Three entries on
-<a href="https://github.com/go-pdfkit/conformance">go-pdfkit's parity table</a> were
-blocked on one reader, which is the argument for naming a gap rather than
-working around it: two of the three closed the same afternoon the reader
-landed.</p>
+mail's body is HTML — and <code>mobi</code> needed it as well: a MOBI's text IS one HTML
+document, cut into 4096-byte pieces and each piece compressed on its own. Three
+entries on <a href="https://github.com/go-pdfkit/conformance">go-pdfkit's parity table</a>
+were blocked on one reader, which is the argument for naming a gap rather than
+working around it: all three are closed now, and the third is <code>mobi</code>.</p>
+<h2 id="and-the-shared-reader-is-where-the-next-defect-was">⛔ And the shared reader is where the next defect was<a class="headerlink" href="#and-the-shared-reader-is-where-the-next-defect-was" title="Permanent link">&para;</a></h2>
+<p>Reading a real Kindle book is also what found
+<a href="https://github.com/go-richdoc/html/issues/4">go-richdoc/html#4</a>: a space
+following an inline element is dropped, so <code>&lt;i&gt;Walt Whitman&lt;/i&gt; has</code> comes out
+as one word. It had been there all along, under <code>epub</code> and <code>email</code> too — any
+paragraph with an <code>&lt;i&gt;</code>, a <code>&lt;b&gt;</code>, a <code>&lt;span&gt;</code> or a link loses a space at every
+one of those boundaries.</p>
+<p>What made it visible was a <strong>second rendering of the same text</strong>: Project
+Gutenberg publishes a MOBI and a plain text of every title it has, and 125 816
+words against 126 630 is a question a reader cannot ask of its own output. A
+shared reader multiplies a defect by its callers, which is the same property
+that made it worth writing once.</p>
 <p>A one-line summary each, and nothing more: what a converter does with a construct
 its format cannot express lives in that repository's README, beside the measurement
 that decided it, so there is one place to correct when it changes.</p>
