@@ -1,4 +1,9 @@
-# go-richdoc
+---
+title: "Overview"
+weight: 10
+---
+
+# go-richdoc {#go-richdoc}
 
 One rich-document model, and the converters that read and write it — Markdown,
 LaTeX, reStructuredText, HTML, EPUB, Kindle MOBI, FictionBook, email, CSV,
@@ -8,16 +13,16 @@ Part of the **Documents, typesetting & fonts** family of the
 [pure-Go ecosystem](https://go-desktop.github.io/) — 10 modules,
 all `CGO_ENABLED=0`.
 
-## What is here
+## What is here {#what-is-here}
 
 This site is the organisation's reference index: what each module is, and where its
 API documentation lives. The API itself is generated from the source and served by
 [pkg.go.dev](https://pkg.go.dev/), which is always current with the released tags —
 duplicating it here would only create a second copy to go stale.
 
-- **[Modules](modules.md)** — every module in go-richdoc, with its source and its reference.
+- **[Modules]({{< relref "modules.md" >}})** — every module in go-richdoc, with its source and its reference.
 
-## One thing to know before converting untrusted input
+## One thing to know before converting untrusted input {#one-thing-to-know-before-converting-untrusted-input}
 
 A converter turns one format into another, so the question is whether CONTENT CAN
 BECOME MARKUP on the way out. It could, once: a Markdown heading of
@@ -32,7 +37,7 @@ scheme. `javascript:alert(1)` in a link survives every hop, and docutils writes 
 same `href`. An allow-list belongs in whatever renders the model. Each repository's
 README has a **Security** section with its own audit.
 
-## The model, in one paragraph
+## The model, in one paragraph {#the-model-in-one-paragraph}
 
 `richdoc` is a typed tree: a `Document` of `Block`s and `Inline`s, both CLOSED
 interface sets, so a converter can type-switch over them exhaustively. Each
@@ -43,7 +48,7 @@ carry them (v0.4.0), `Cell.Blocks` and `Table.Caption` (v0.5.0), each added beca
 a corpus showed what was being dropped, and each additive so no existing consumer
 breaks.
 
-## What every module here is held to
+## What every module here is held to {#what-every-module-here-is-held-to}
 
 - `CGO_ENABLED=0`: no cgo, and no shelling out to a command-line tool in place of a
   library.
@@ -51,15 +56,18 @@ breaks.
   `darwin/{amd64,arm64}`, `windows/amd64` and `js/wasm` — and **tested** on
   `amd64`, with the race detector.
 
-    !!! note "⛔ Built is not tested, and this page used to say both at once"
-        It read "built and tested on amd64, arm64, riscv64, loong64, ppc64le and
-        s390x". Cross-compiling proves a program compiles; it says nothing about
-        what it does when a byte order or a word size differs. These modules are
-        a tree and a great deal of string handling, which is a different risk
-        from a format whose integers come off a disk — and where that *is* the
-        risk, the lane exists: [`go-ooxml`](https://go-ooxml.github.io/) runs its
-        suite under qemu on five more architectures, big-endian s390x included,
-        because an OPC package is a ZIP full of little-endian integers.
+{{< callout type="info" >}}
+**⛔ Built is not tested, and this page used to say both at once**
+
+It read "built and tested on amd64, arm64, riscv64, loong64, ppc64le and
+s390x". Cross-compiling proves a program compiles; it says nothing about
+what it does when a byte order or a word size differs. These modules are
+a tree and a great deal of string handling, which is a different risk
+from a format whose integers come off a disk — and where that *is* the
+risk, the lane exists: [`go-ooxml`](https://go-ooxml.github.io/) runs its
+suite under qemu on five more architectures, big-endian s390x included,
+because an OPC package is a ZIP full of little-endian integers.
+{{< /callout >}}
 - 100% statement coverage as a CI gate, error branches included — with one stated
   exception: `rst` enforces a **94% floor** instead. It walks a doctree whose exact
   shape it does not control (`go-docutils/docutils` is a separate, independently

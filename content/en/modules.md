@@ -1,4 +1,9 @@
-# Modules
+---
+title: "Modules"
+weight: 20
+---
+
+# Modules {#modules}
 
 The 10 modules of **go-richdoc**. Each links to its source and to
 its generated API reference.
@@ -21,7 +26,7 @@ one-way reader is the kind of claim that costs somebody an afternoon. A module
 that only reads is not unfinished: a `.fb2`, an EPUB, a mailbox or a `.csv` is a
 *source*, and writing one back is a job nobody has asked for.
 
-## ⛔ One missing reader was three missing formats
+## ⛔ One missing reader was three missing formats {#one-missing-reader-was-three-missing-formats}
 
 `html` is not a format anybody asked this organisation for. It is the piece
 `epub` and `email` both needed — EPUB's content documents are XHTML and an HTML
@@ -31,7 +36,7 @@ entries on [go-pdfkit's parity table](https://github.com/go-pdfkit/conformance)
 were blocked on one reader, which is the argument for naming a gap rather than
 working around it: all three are closed now, and the third is `mobi`.
 
-## ⛔ And the shared reader is where the next defect was
+## ⛔ And the shared reader is where the next defect was {#and-the-shared-reader-is-where-the-next-defect-was}
 
 Reading a real Kindle book is also what found
 [go-richdoc/html#4](https://github.com/go-richdoc/html/issues/4): a space
