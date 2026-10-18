@@ -1,11 +1,11 @@
 # go-richdoc
 
 One rich-document model, and the converters that read and write it — Markdown,
-LaTeX, reStructuredText, HTML, EPUB, FictionBook, email, CSV, JSON, XML and
-plain text.
+LaTeX, reStructuredText, HTML, EPUB, Kindle MOBI, FictionBook, email, CSV,
+JSON, XML and plain text.
 
 Part of the **Documents, typesetting & fonts** family of the
-[pure-Go ecosystem](https://go-desktop.github.io/) — 9 modules,
+[pure-Go ecosystem](https://go-desktop.github.io/) — 10 modules,
 all `CGO_ENABLED=0`.
 
 ## What is here
