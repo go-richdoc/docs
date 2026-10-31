@@ -37,6 +37,41 @@ scheme. `javascript:alert(1)` in a link survives every hop, and docutils writes 
 same `href`. An allow-list belongs in whatever renders the model. Each repository's
 README has a **Security** section with its own audit.
 
+### The other question: how much work can a small document ask for? {#how-much-work-can-a-small-document-ask-for}
+
+Every reader here takes a `Limits` and refuses past it, because the answer turned out
+to be "a great deal", and each bound's default is picked from a measurement over real
+documents rather than from taste:
+
+| reader | what it bounds | the measurement behind the default |
+|---|---|---|
+| `markdown` | block nesting (v0.11.0) | 14 651 real `.md` files: the deepest has **5** `>` markers, the widest indent **73** columns |
+| `latex` | environment nesting (v0.8.0) | 97 689 real `.tex` files: the deepest nests **64**, the next **26** |
+| `epub` | entries, entry bytes, total bytes, depth, nodes | a ZIP entry declaring 8 638 bytes and opening to 8 MiB |
+| `email` | parts, part bytes, total bytes, depth, nodes | a `message/rfc822` forwarded a hundred times |
+| `fb2` | depth, and one binary's size | depth is checked in a token pass of its own, because the stack a deep file overflows is `encoding/xml`'s |
+| `html` | depth and nodes | the walk recurses where `x/net/html` does not |
+| `rst` | line length | docutils' own `line_length_limit` |
+
+Two shapes of defect came out of asking, and both are worth knowing if you build
+something similar:
+
+- **a definition that references itself is an unrecoverable crash.** A substitution
+  (`.. |a| replace:: |a|`, 21 bytes) and a footnote (`[^1]: the note[^1]`, 55 bytes)
+  were each inlined at their reference, so each recursed forever and Go answered
+  `fatal error: stack overflow` — which no `recover()` catches. Fixed in `rst` v0.13.0
+  and `markdown` v0.11.0. The second was found **after** an audit for the first had
+  swept the family and missed it, because the audit looked for the shape of the code it
+  had already seen rather than for the behaviour.
+- **nesting costs more than bytes.** Parsing is quadratic in depth in both Markdown and
+  LaTeX, and the cheap shapes are asymmetric: a block quote costs two bytes a level, a
+  one-line nested list four. 400 KB of block quotes occupied a core for 22 seconds
+  before the bound. Each claim is a committed benchmark with an **equal-size flat
+  control**, because without the control the numbers only say that a big document is
+  slow.
+
+All seven readers are fuzzed (`go test -fuzz`), with the failing inputs committed.
+
 ## The model, in one paragraph {#the-model-in-one-paragraph}
 
 `richdoc` is a typed tree: a `Document` of `Block`s and `Inline`s, both CLOSED
