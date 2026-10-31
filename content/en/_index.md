@@ -48,7 +48,7 @@ real documents rather than from taste:
 |---|---|---|
 | `markdown` | block nesting (v0.11.0) | 14 651 real `.md` files: the deepest has **5** `>` markers, the widest indent **73** columns |
 | `latex` | environment nesting (v0.8.0) | 97 689 real `.tex` files: the deepest nests **64**, the next **26** |
-| `epub` | entries, entry bytes, total bytes, depth, nodes | a ZIP entry declaring 8 638 bytes and opening to 8 MiB |
+| `epub` | entries, entry bytes, total bytes, depth, nodes, **book nodes** (v0.2.0) | a ZIP entry declaring 8 638 bytes and opening to 8 MiB — and **58.5** bytes of heap per byte *inflated*, since the ratio per byte of *archive* is whatever the attacker compressed by |
 | `email` | parts, part bytes, total bytes, depth, nodes | a `message/rfc822` forwarded a hundred times |
 | `fb2` | depth, and one binary's size | depth is checked in a token pass of its own, because the stack a deep file overflows is `encoding/xml`'s |
 | `html` | depth, nodes, input bytes, source elements (v0.2.0) | 123 369 real `.html` files, **all** accepted: the biggest 19.87 MB, the widest **98 961** elements — and a refusal that cost 96 MB now costs **7 096 bytes** |
@@ -83,7 +83,36 @@ build something similar:
   `data` v0.2.0, and the same control then found it in `html`: `x/net/html` builds the
   whole tree before our first node is counted, and has no ceiling of its own, so a
   refusal cost **96 MB** where it now costs **7 096 bytes** (v0.2.0). The sibling that
-  a fix suggests is worth checking **by running its control**, not by reading its code.
+  a fix suggests is worth checking **by running its control**, not by reading its code
+  — in `html` the comment on exactly that question was *correct*, about stack overflow,
+  and silent about allocation, which is harder to see past than no comment at all.
+
+  The control has now been run on **every reader in the family that delegates its
+  parse**, and the negative results are committed beside the positive ones, because a
+  ceiling that is right today is the one a future change quietly breaks:
+
+  | reader | 8× the source, same ceiling | |
+  |---|---|---|
+  | `data` (JSON) | 243 MB → 1.275 GB, **5.2** | fixed, now **1.0** |
+  | `html` | 12 MB → 96 MB, **8.0** | fixed, now **1.0** |
+  | `epub` bytes | 100 344 → 74 744, **0.7** | already right |
+  | `email` | 18 728 → 18 728, **1.0** | already right |
+  | `mobi` | 68 480 → 68 480, **1.0** | already right |
+
+  `epub` had the defect in its other dimension instead: `MaxNodes` is handed to the
+  HTML reader **for each** content document, so a spine of fifty chapters of a million
+  nodes was fifty million nodes with every factor correct — two ceilings that multiply,
+  like a CSV's rows × columns. `MaxBookNodes` (v0.2.0) bounds what the reader returns.
+- **and an instrument reports its own cost as the subject's.** The first run of that
+  control against `email` said **7.3** and a defect that does not exist: the call
+  converted the message from a string to bytes *inside* the measured closure, so it was
+  weighing a full copy — 223 528 bytes for a 200 124-byte message is the copy and
+  nothing else, which is why the ratio came out at almost exactly the size ratio. The
+  same hour, a corpus probe's `uint64` subtraction printed `18446744073642448112` for a
+  heap that had *shrunk*, and an `epub` node counter called a table of a million empty
+  cells **one node** because an empty cell holds nothing to recurse into. Three
+  instrument defects, all found by *running* the instrument and reading the number
+  rather than by reviewing it.
 - **and a measurement's proxy can be wrong about its own subject.** The HTML corpus
   says the deepest of 123 369 real files nests **3 140** levels against a `MaxDepth`
   of 256 — so 0.1% of real documents ought to be refused, and the number actually
