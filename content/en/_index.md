@@ -51,7 +51,7 @@ real documents rather than from taste:
 | `epub` | entries, entry bytes, total bytes, depth, nodes | a ZIP entry declaring 8 638 bytes and opening to 8 MiB |
 | `email` | parts, part bytes, total bytes, depth, nodes | a `message/rfc822` forwarded a hundred times |
 | `fb2` | depth, and one binary's size | depth is checked in a token pass of its own, because the stack a deep file overflows is `encoding/xml`'s |
-| `html` | depth and nodes | the walk recurses where `x/net/html` does not |
+| `html` | depth, nodes, input bytes, source elements (v0.2.0) | 123 369 real `.html` files, **all** accepted: the biggest 19.87 MB, the widest **98 961** elements — and a refusal that cost 96 MB now costs **7 096 bytes** |
 | `mobi` | records, text bytes, image bytes, total image bytes, depth, nodes | a PalmDOC record declaring more than it holds, and the ceiling handed on to the HTML reader underneath |
 | `data` | input bytes, rows, columns, cells, depth, nodes, source values | 60× to 176× the source allocated per byte, by format — and the ceiling that stopped the answer and not the work |
 | `rst` | line length | docutils' own `line_length_limit` |
@@ -80,7 +80,18 @@ build something similar:
   the source bytes now refuses a hostile 16 MiB array in **40 bytes**. The same test on
   the XML reader, which counts inside its own token walk, gives **1.0** — and without
   that row the numbers would only say that a bigger file allocates more. Fixed in
-  `data` v0.2.0.
+  `data` v0.2.0, and the same control then found it in `html`: `x/net/html` builds the
+  whole tree before our first node is counted, and has no ceiling of its own, so a
+  refusal cost **96 MB** where it now costs **7 096 bytes** (v0.2.0). The sibling that
+  a fix suggests is worth checking **by running its control**, not by reading its code.
+- **and a measurement's proxy can be wrong about its own subject.** The HTML corpus
+  says the deepest of 123 369 real files nests **3 140** levels against a `MaxDepth`
+  of 256 — so 0.1% of real documents ought to be refused, and the number actually
+  refused is **zero**: unclosed tags make a *tokenizer's* nesting climb where the
+  HTML5 algorithm closes them. A default "corrected" from that percentile would have
+  loosened a ceiling that was never tight. The probe now has a mode that asks the
+  reader for its verdict on every file instead, which is the only column a default
+  should be chosen from.
 - **and a guard can refuse what the thing it protects would accept**, which is worse
   than no guard. The fuzz target checking the new pass against the converter broke it
   in **700 milliseconds** with `0 0 0[0[0[0`: nine values to a scan of the file, *one*
