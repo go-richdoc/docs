@@ -81,6 +81,14 @@ build something similar:
   the XML reader, which counts inside its own token walk, gives **1.0** — and without
   that row the numbers would only say that a bigger file allocates more. Fixed in
   `data` v0.2.0.
+- **and a guard can refuse what the thing it protects would accept**, which is worse
+  than no guard. The fuzz target checking the new pass against the converter broke it
+  in **700 milliseconds** with `0 0 0[0[0[0`: nine values to a scan of the file, *one*
+  value to `Decoder.Decode`, which reads one and leaves the stream alone. The same
+  minimised input showed `Parse` had been returning **half a file in silence** — a
+  second JSON value dropped with no error — so it now says so. A guard has to stop
+  where the thing it guards stops, and the way to find out that it does not is to
+  hunt for a counterexample rather than argue the derivation.
 
 Every reader in the family is fuzzed (`go test -fuzz`), with the failing inputs
 committed: **thirteen** targets over nine repositories. Each asserts a property of the
