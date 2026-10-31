@@ -39,9 +39,10 @@ README has a **Security** section with its own audit.
 
 ### The other question: how much work can a small document ask for? {#how-much-work-can-a-small-document-ask-for}
 
-Every reader here takes a `Limits` and refuses past it, because the answer turned out
-to be "a great deal", and each bound's default is picked from a measurement over real
-documents rather than from taste:
+Every reader here takes a ceiling and refuses past it — a `Limits` everywhere except
+`data`, whose four readers carry theirs on their `Options` — because the answer turned
+out to be "a great deal", and each bound's default is picked from a measurement over
+real documents rather than from taste:
 
 | reader | what it bounds | the measurement behind the default |
 |---|---|---|
@@ -51,10 +52,12 @@ documents rather than from taste:
 | `email` | parts, part bytes, total bytes, depth, nodes | a `message/rfc822` forwarded a hundred times |
 | `fb2` | depth, and one binary's size | depth is checked in a token pass of its own, because the stack a deep file overflows is `encoding/xml`'s |
 | `html` | depth and nodes | the walk recurses where `x/net/html` does not |
+| `mobi` | records, text bytes, image bytes, total image bytes, depth, nodes | a PalmDOC record declaring more than it holds, and the ceiling handed on to the HTML reader underneath |
+| `data` | input bytes, rows, columns, cells, depth, nodes, source values | 60× to 176× the source allocated per byte, by format — and the ceiling that stopped the answer and not the work |
 | `rst` | line length | docutils' own `line_length_limit` |
 
-Two shapes of defect came out of asking, and both are worth knowing if you build
-something similar:
+Three shapes of defect came out of asking, and all three are worth knowing if you
+build something similar:
 
 - **a definition that references itself is an unrecoverable crash.** A substitution
   (`.. |a| replace:: |a|`, 21 bytes) and a footnote (`[^1]: the note[^1]`, 55 bytes)
@@ -69,8 +72,29 @@ something similar:
   before the bound. Each claim is a committed benchmark with an **equal-size flat
   control**, because without the control the numbers only say that a big document is
   slow.
+- **a ceiling can stop the answer and not the work.** Two flat JSON arrays, the second
+  eight times the source of the first, both refused by the same ceiling at the same
+  node — so the reader should have stopped at the same byte in both. They cost
+  **243 MB** and **1.275 GB**, a ratio of 5.2, because `encoding/json` decodes the
+  whole value into an `any` *before* the converter counts its first node. A pass over
+  the source bytes now refuses a hostile 16 MiB array in **40 bytes**. The same test on
+  the XML reader, which counts inside its own token walk, gives **1.0** — and without
+  that row the numbers would only say that a bigger file allocates more. Fixed in
+  `data` v0.2.0.
+- **and a guard can refuse what the thing it protects would accept**, which is worse
+  than no guard. The fuzz target checking the new pass against the converter broke it
+  in **700 milliseconds** with `0 0 0[0[0[0`: nine values to a scan of the file, *one*
+  value to `Decoder.Decode`, which reads one and leaves the stream alone. The same
+  minimised input showed `Parse` had been returning **half a file in silence** — a
+  second JSON value dropped with no error — so it now says so. A guard has to stop
+  where the thing it guards stops, and the way to find out that it does not is to
+  hunt for a counterexample rather than argue the derivation.
 
-All seven readers are fuzzed (`go test -fuzz`), with the failing inputs committed.
+Every reader in the family is fuzzed (`go test -fuzz`), with the failing inputs
+committed: **thirteen** targets over nine repositories. Each asserts a property of the
+**output** rather than the absence of a panic — a document XOR an error, nothing built
+deeper than the reader's own ceiling allows, and the same bytes twice giving the same
+document.
 
 ## The model, in one paragraph {#the-model-in-one-paragraph}
 
