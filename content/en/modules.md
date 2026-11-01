@@ -14,7 +14,7 @@ its generated API reference.
 | [`markdown`](https://github.com/go-richdoc/markdown) | CommonMark + GFM tables and strikethrough, delegating the parse to `goldmark` | read, write | [pkg.go.dev](https://pkg.go.dev/github.com/go-richdoc/markdown) |
 | [`latex`](https://github.com/go-richdoc/latex) | a practical subset of LaTeX, plus a PDF subpackage | read, write | [pkg.go.dev](https://pkg.go.dev/github.com/go-richdoc/latex) |
 | [`rst`](https://github.com/go-richdoc/rst) | reStructuredText, delegating the parse to `go-docutils/docutils` | read, write | [pkg.go.dev](https://pkg.go.dev/github.com/go-richdoc/rst) |
-| [`data`](https://github.com/go-richdoc/data) | CSV, JSON, XML and plain text, plus the `richdata` command | read | [pkg.go.dev](https://pkg.go.dev/github.com/go-richdoc/data) |
+| [`data`](https://github.com/go-richdoc/data) | CSV, JSON, XML and plain text, plus the `richdata` command — cobra with POSIX flags since v0.3.0 (`--format`, not `-format`), exiting **2** for a bad command line and **1** for work that failed | read | [pkg.go.dev](https://pkg.go.dev/github.com/go-richdoc/data) |
 | [`fb2`](https://github.com/go-richdoc/fb2) | FictionBook 2 (`.fb2`): one XML file, images base64 inside it | read | [pkg.go.dev](https://pkg.go.dev/github.com/go-richdoc/fb2) |
 | [`html`](https://github.com/go-richdoc/html) | HTML and XHTML, delegating the parse to `golang.org/x/net/html` | read | [pkg.go.dev](https://pkg.go.dev/github.com/go-richdoc/html) |
 | [`epub`](https://github.com/go-richdoc/epub) | EPUB 2 and 3: the ZIP, the manifest and the spine, chapters through `html` | read | [pkg.go.dev](https://pkg.go.dev/github.com/go-richdoc/epub) |
