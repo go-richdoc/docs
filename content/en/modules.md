@@ -10,7 +10,7 @@ its generated API reference.
 
 | Module | What it is | Directions | Reference |
 | --- | --- | --- | --- |
-| [`richdoc`](https://github.com/go-richdoc/richdoc) | the model itself: the tree, and `Walk`, `Clone`, `PlainText` and a builder | — | [pkg.go.dev](https://pkg.go.dev/github.com/go-richdoc/richdoc) |
+| [`richdoc`](https://github.com/go-richdoc/richdoc) | the model itself: the tree, and `Walk`, `Clone`, `PlainText` and a builder — plus `bombtest` (v0.8.0), the gate every reader's bomb tests run through | — | [pkg.go.dev](https://pkg.go.dev/github.com/go-richdoc/richdoc) |
 | [`markdown`](https://github.com/go-richdoc/markdown) | CommonMark + GFM tables and strikethrough, delegating the parse to `goldmark` | read, write | [pkg.go.dev](https://pkg.go.dev/github.com/go-richdoc/markdown) |
 | [`latex`](https://github.com/go-richdoc/latex) | a practical subset of LaTeX, plus a PDF subpackage | read, write | [pkg.go.dev](https://pkg.go.dev/github.com/go-richdoc/latex) |
 | [`rst`](https://github.com/go-richdoc/rst) | reStructuredText, delegating the parse to `go-docutils/docutils` | read, write | [pkg.go.dev](https://pkg.go.dev/github.com/go-richdoc/rst) |

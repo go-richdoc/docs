@@ -171,6 +171,26 @@ from a format whose integers come off a disk — and where that *is* the
 risk, the lane exists: [`go-ooxml`](https://go-ooxml.github.io/) runs its
 suite under qemu on five more architectures, big-endian s390x included,
 because an OPC package is a ZIP full of little-endian integers.
+
+**⭐ And on 2026-11-07 the gap was closed by hand**: all **19** test
+binaries — every module and subpackage — were cross-compiled for
+`linux/s390x` and **run on real IBM z17 hardware**. 19 of 19 passed. So
+"tested on amd64" is now "tested on amd64, and once on big-endian
+silicon".
+
+Three caveats, because the sentence above is the kind that grows teeth it
+has not earned. It was a **one-off, not a CI lane**: the next commit is
+again amd64-only. There was **no `-race`**, which needs CGO on s390x. And
+a compiled test binary does **not** carry its `testdata`, so `html` failed
+on a missing fixture until the directory was copied — a test that *skips*
+on a missing fixture would have passed vacuously, which is why the modules
+holding fixtures were counted before the other passes were believed.
+
+The result was also *predicted*, which is the honest way to read it: these
+readers use only byte-order-**explicit** APIs — `binary.BigEndian`
+throughout MOBI's PalmDOC headers, `binary.LittleEndian` for ZIP fields —
+and never `binary.NativeEndian`, which is the one that actually broke on
+s390x elsewhere in this fleet.
 {{< /callout >}}
 - 100% statement coverage as a CI gate, error branches included — with one stated
   exception: `rst` enforces a **94% floor** instead. It walks a doctree whose exact
