@@ -18,7 +18,7 @@ its generated API reference.
 | [`fb2`](https://github.com/go-richdoc/fb2) | FictionBook 2 (`.fb2`): one XML file, images base64 inside it | read | [pkg.go.dev](https://pkg.go.dev/github.com/go-richdoc/fb2) |
 | [`html`](https://github.com/go-richdoc/html) | HTML and XHTML, delegating the parse to `golang.org/x/net/html` | read | [pkg.go.dev](https://pkg.go.dev/github.com/go-richdoc/html) |
 | [`epub`](https://github.com/go-richdoc/epub) | EPUB 2 and 3: the ZIP, the manifest and the spine, chapters through `html` | read | [pkg.go.dev](https://pkg.go.dev/github.com/go-richdoc/epub) |
-| [`rtf`](https://github.com/go-richdoc/rtf) | Rich Text Format (`.rtf`): paragraphs, headings, lists, tables, pictures, hyperlinks and footnotes; one explicit stack, OLE objects never run | read | [pkg.go.dev](https://pkg.go.dev/github.com/go-richdoc/rtf) |
+| [`rtf`](https://github.com/go-richdoc/rtf) | Rich Text Format (`.rtf`): paragraphs, headings, lists, tables, pictures, hyperlinks and footnotes; one explicit stack, OLE objects never run. ⛔ **Use v0.1.2 or later**: v0.1.0 and v0.1.1 had memory-amplification bugs and should not be used. From v0.1.2 allocation is bounded at 80× the input, `MaxInput` defaults to 16 MiB (a worst case of about 1.25 GiB) and `MaxNodes` to 1 Mi | read | [pkg.go.dev](https://pkg.go.dev/github.com/go-richdoc/rtf) |
 | [`email`](https://github.com/go-richdoc/email) | RFC 5322 messages and MIME, HTML parts through `html` | read | [pkg.go.dev](https://pkg.go.dev/github.com/go-richdoc/email) |
 | [`mobi`](https://github.com/go-richdoc/mobi) | Kindle MOBI: a Palm database, a PalmDOC stream and one HTML document, through `html` | read | [pkg.go.dev](https://pkg.go.dev/github.com/go-richdoc/mobi) |
 
