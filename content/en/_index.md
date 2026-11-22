@@ -58,7 +58,7 @@ checkable against one file:
 | `fb2` | `Limits` | depth, and one binary's size | depth is checked in a token pass of its own, because the stack a deep file overflows is `encoding/xml`'s |
 | `html` | `Limits` | depth, nodes, input bytes, source elements (v0.2.0) | 123 369 real `.html` files, **all** accepted: the biggest 19.87 MB, the widest **98 961** elements — and a refusal that cost 96 MB now costs **7 096 bytes** |
 | `mobi` | `Limits` | records, text bytes, image bytes, total image bytes, depth, nodes | a PalmDOC record declaring more than it holds, and the ceiling handed on to the HTML reader underneath |
-| `rtf` | `Limits` | input bytes, group depth, `\bin` bytes, picture bytes, nodes, text bytes | a `\bin` count that is a 32-bit number in a six-byte control word, refused against the bytes that remain **before** anything is allocated; no corpus measured yet |
+| `rtf` | `Limits` | input bytes, group depth, `\bin` bytes, picture bytes, nodes, text bytes | a `\bin` count that is a 32-bit number in a six-byte control word, refused against the bytes that remain **before** anything is allocated; v0.1.2 is the minimum (v0.1.0 and v0.1.1 amplified memory): allocation is bounded at 80× the input, `MaxInput` defaults to 16 MiB (worst case about 1.25 GiB), `MaxNodes` to 1 Mi; no corpus measured yet |
 | `data` | `Options`, per reader | input bytes, rows, columns, cells, depth, nodes, source values | 60× to 176× the source allocated per byte, by format — and the ceiling that stopped the answer and not the work |
 | `rst` | `Options` | line length | docutils' own `line_length_limit`, 10 000 characters; a **negative** value lifts it, for a caller who would rather spend the time than lose the document |
 
